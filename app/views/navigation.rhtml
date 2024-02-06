@@ -33,8 +33,7 @@ end
                  {'id' => 'navigationSearchForm', 'method' => 'get', 'accept-charset' => 'utf-8' }) do %>
       <fieldset class="search"><input type="text" id="searchField" name="query" value="Search"
              style="display:inline-block; float: left;"
-             onfocus="this.value == 'Search' ? this.value = '' : true"
-             onblur="this.value == '' ? this.value = 'Search' : true" /></fieldset>
+             placeholder="Search" /></fieldset>
     <% end %>
 <%- else -%>
     <%= list_item 'Home Page', {:action => 'published', :id => 'HomePage'}, 'Home page', 'H' %> |

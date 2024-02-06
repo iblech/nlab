@@ -55,8 +55,7 @@ For trivial edits, such as correcting typos, please leave the box below empty; f
 		<div id="editFormButtons">
 			<input type="submit" value="Submit" accesskey="s"/> as
 			<%= text_field_tag :author, h(@author.purify),
-			        :onfocus => "this.value == 'Anonymous' ? this.value = '' : true;",
-			        :onblur  => "this.value == '' ? this.value = 'Anonymous' : true" %>
+                               :placeholder => "Anonymous" %>
 			|
 			<span>
 				<%= link_to('Cancel', {:web => @web.address, :action => 'cancel_edit', :id => @page.name},
@@ -70,22 +69,27 @@ For trivial edits, such as correcting typos, please leave the box below empty; f
 <script type="text/javascript">
 <!--//--><![CDATA[//><!--
 function toggleVisibility() {
+  var pagename = decodeURIComponent(window.location.pathname.split('/')[3]);
   var span = document.getElementById('title_change');
   if (span.style.display =='inline') {
      span.style.display ='none';
-     document.getElementById('new_name').value = "<%= escape_javascript(@page.name) %>";
-     var content = document.getElementById('content').value
-     document.getElementById('content').value = content.replace(/\[\[!redirects <%= Regexp.escape(@page.name).gsub('/', '\\/') %>\]\]\n/, '')
+     document.getElementById('new_name').value = pagename;
+     var content = document.getElementById('content').value;
+     document.getElementById('content').value = content.replace(
+         new RegExp('/\[\[!redirects ' + pagename.replace(/[/\-\\^$*+?.()|[\]{}]/g, '\\$&') + ' \]\]\n'),
+	 ''
+     );
      }
   else
      span.style.display ='inline'
 }
 
 function addRedirect(){
+  var pagename = decodeURIComponent(window.location.pathname.split('/')[3]);
   var e = document.getElementById('new_name').value;
-  if ( e != "<%= escape_javascript(@page.name) %>" && e != '') {
+  if ( e != pagename && e != '') {
     var content = document.getElementById('content');
-    content.value = '[[!redirects <%= escape_javascript(@page.name) %>]]\n' + content.value
+    content.value = '[[!redirects ' + pagename + ']]\n' + content.value
     }
 }
 

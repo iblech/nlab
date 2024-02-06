@@ -40,8 +40,7 @@
 		<div id="editFormButtons">
 		    <input type="submit" value="Submit" accesskey="s"/> as
 		    <%= text_field_tag :author, @author,
-		        :onfocus => "this.value == 'Anonymous' ? this.value = '' : true;",
-		        :onblur  => "this.value == '' ? this.value = 'Anonymous' : true" %>
+                       :placeholder => "Anonymous" %>
         </div>
 	<%- end -%>
 </div>

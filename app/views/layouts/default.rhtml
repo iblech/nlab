@@ -42,21 +42,25 @@
   <%= csrf_meta_tag %>
   <%- if @web -%>
    <%- if @web.markup == :markdownMML -%>
-  <script type="text/x-mathjax-config">
+  <script type="text/javascript">
   <!--//--><![CDATA[//><!--
-    MathJax.Ajax.config.path["Contrib"] = "<%= compute_public_path('', 'MathJax').split('/?')[0] %>";
-    MathJax.Hub.Config({
+    window.MathJax = {
       MathML: { useMathMLspacing: true },
       "HTML-CSS": { scale: 90,
                     extensions: ["handle-floats.js"]
+      },
+      AuthorInit: function () {
+        MathJax.Ajax.config.path["Contrib"] = "/MathJax";
+        MathJax.Hub.Register.StartupHook("Begin", function () {
+          MathJax.Hub.Queue(function () {
+            var fos = document.getElementsByTagName('foreignObject');
+            for (var i = 0; i < fos.length; i++) {
+              MathJax.Hub.Typeset(fos[i]);
+            }
+          });
+        });
       }
-    });
-    MathJax.Hub.Queue( function () {
-       var fos = document.getElementsByTagName('foreignObject');
-       for (var i = 0; i < fos.length; i++) {
-         MathJax.Hub.Typeset(fos[i]);
-       }
-    });
+    };
   //--><!]]>
   </script>
 

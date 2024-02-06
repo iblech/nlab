@@ -21,7 +21,7 @@
 		<div id="editFormButtons">
 	        <input type="submit" value="Update" accesskey="u" /> as
 		    <input type="text" name="author" id="authorName" value="<%= h(@author.purify) %>"
-		        onclick="this.value == 'Anonymous' ? this.value = '' : true" />
+                       placeholder="Anonymous" />
 		    |
 			<span>
 				<%= link_to('Cancel', {:web => @web.address, :action => 'cancel_edit', :id => @page.name},
