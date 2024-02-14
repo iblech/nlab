@@ -2760,9 +2760,9 @@ Ajax.PeriodicalUpdater = Class.create(Ajax.Base, {
     var isFunction = (typeof value === 'function');
     DIV.removeAttribute('onclick');
     return isFunction;
-  })();
+  });
 
-  if (PROBLEMATIC_ATTRIBUTE_READING) {
+  if (Prototype.Browser.IE && PROBLEMATIC_ATTRIBUTE_READING()) {
     readAttribute = readAttribute_IE;
   } else if (Prototype.Browser.Opera) {
     readAttribute = readAttribute_Opera;
