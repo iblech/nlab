@@ -12,6 +12,8 @@ nlab_zulip_channels). Announcements are posted as the one active Zulip user whos
 can_forge_sender permission; other announcements are posted by the bot. Every run also copies
 these names into the table nlab_zulip_member_names, for the spam detector. See README.md for the
 setup, the configuration (the environment variables) and the operation.
+
+Run it with working directory the nLab's directory (Rails.root), like the other scripts.
 """
 
 import contextlib
@@ -41,12 +43,9 @@ MAX_SUFFIX = 20
 # full name.
 NLAB_NAME_FIELD = "nLab name"
 
-# The nLab's directory (Rails.root); this file is script/src/zulip_announcer/zulip_announcer.py in it.
-NLAB_DIRECTORY = pathlib.Path(__file__).resolve().parents[3]
-
 # Created by the nLab when it has queued an announcement. systemd starts this script while the
 # file exists (see README.md), and the script deletes it.
-WAKE_FILE = NLAB_DIRECTORY / "tmp" / "zulip_announcer_wake"
+WAKE_FILE = pathlib.Path("tmp/zulip_announcer_wake")
 
 logger = logging.getLogger("zulip_announcer")
 
