@@ -209,8 +209,9 @@ def topic_url(site, channel_id, channel_name, topic, message_id):
 
 
 def escape_markdown(text):
-    """Literal text in Zulip Markdown (also prevents mentions)."""
-    return "".join("\\" + c if c in "\\`*_{}[]()#+-.!|~<>$@:" else c for c in text)
+    """Literal text in Zulip Markdown (also prevents mentions). Zulip has no backslash escapes
+    ("M\\. Birch" shows the backslash), but it does render character references."""
+    return "".join("&#%d;" % ord(c) if c in "\\`*_{}[]()#+-.!|~<>$@:&" else c for c in text)
 
 
 def name_key(name):
@@ -337,7 +338,8 @@ class Announcer:
     def compose(self, row, sender_email):
         """Markdown content; the author's name is added if the bot posts."""
         if row.comment:
-            text = markdown_itex.to_zulip_markdown(row.comment, self.nlab_url)
+            page_url = "%s%s/show/%s" % (self.nlab_url, row.web_address, urllib.parse.quote_plus(row.page_name))
+            text = markdown_itex.to_zulip_markdown(row.comment, self.nlab_url, page_url)
         else:  # only page creations get here without a comment
             text = "Page created, but author did not leave any comments."
         parts = [text]
