@@ -1,7 +1,14 @@
 #!/usr/bin/env python3
 
 """
-Announces nLab edits on the nForum (Zulip): sends the rows of the table nlab_zulip_outbox, which
+This script serves two purposes.
+
+1. It announced nLab edits on the Zulip nForum.
+
+2. It populates the nlab_zulip_member_names table, used synchronously by the
+   spam checker when editing nLab pages.
+
+This script implements the following pipeline: it sends the rows of the table nlab_zulip_outbox, which
 the nLab writes on page save (lib/zulip_announcer.rb), to Zulip in order, deletes the ones it
 sent, and exits. systemd starts it when the nLab creates tmp/zulip_announcer_wake, and every few
 minutes, so that rows that failed are tried again.
